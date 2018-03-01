@@ -1,1 +1,1 @@
-print("XX")
+print("XXTTT")
