@@ -18,3 +18,8 @@ print(rslt)
 # filter -lambda only
 rslt = list(filter(lambda x: x >= 2, a))
 print(rslt)
+
+my_dict = {"a": 1, "b": 2}
+print({k: v * 2 for k, v in my_dict.items()})
+for k in my_dict.keys:
+    print(k)
