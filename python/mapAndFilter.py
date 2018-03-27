@@ -1,3 +1,5 @@
+import functools
+
 a = list(range(5))
 print(a)
 
@@ -21,5 +23,6 @@ print(rslt)
 
 my_dict = {"a": 1, "b": 2}
 print({k: v * 2 for k, v in my_dict.items()})
-for k in my_dict.keys:
-    print(k)
+
+# reduce function
+print(functools.reduce(lambda x, y: x + y, range(1, 7)))

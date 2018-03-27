@@ -25,3 +25,6 @@ print(set_a - set_b)
 print(set_b - set_a)
 # symetric difference
 print(set_a ^ set_b)
+
+# zip function
+print(dict(zip("abcd", "0123")))
