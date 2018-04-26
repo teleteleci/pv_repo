@@ -19,6 +19,7 @@ except TypeError:
 print(set_a | set_b)
 # intersection
 print(set_a & set_b)
+print(set_a.intersection(set_b))
 # diference a - b
 print(set_a - set_b)
 # diference b - a
