@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cruise xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="cruise-config.xsd" schemaVersion="104">
+  <server artifactsdir="artifacts" agentAutoRegisterKey="36ba2f9e-9c82-4349-baa2-4d14ce537d54" webhookSecret="a5bce423-d302-4fa4-92b4-343cbccb380a" commandRepositoryLocation="default" serverId="dca31fa1-cbb9-4f6f-8b1c-553e469e583a" tokenGenerationKey="cf56315c-4e34-4ae2-aaf5-2dfbb9f92d6a" />
+  <pipelines group="develop">
+    <pipeline name="myTestPipeline">
+      <materials>
+        <git url="https://github.com/teleteleci/pv_repo.git" materialName="pv_repo" />
+      </materials>
+      <stage name="myStage">
+        <jobs>
+          <job name="pwd" timeout="1">
+            <tasks>
+              <exec command="/bin/bash">
+                <arg>-c</arg>
+                <arg>pwd</arg>
+                <runif status="passed" />
+              </exec>
+            </tasks>
+          </job>
+        </jobs>
+      </stage>
+    </pipeline>
+  </pipelines>
+</cruise>

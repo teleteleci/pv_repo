@@ -1,0 +1,33 @@
+version: '2'
+# docker run --name splunk --hostname splunk -p 8100:8000 -d -e "SPLUNK_START_ARGS=--accept-license" splunk/splunk:7.0.0
+services:
+    splunk_7_0_0:
+        image: splunk/splunk:7.0.0
+        # command:
+        environment:
+            # export HostIP="192.168.1.175"
+            SPLUNK_START_ARGS: --accept-license
+
+        # command:
+        #     "-name etcd0 \
+        #     -advertise-client-urls http://${HostIP}:2379,http://${HostIP}:4001 \
+        #     -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001 \
+        #     -initial-advertise-peer-urls http://${HostIP}:2380 \
+        #     -listen-peer-urls http://0.0.0.0:2380 \
+        #     -initial-cluster-token etcd-cluster-1 \
+        #     -initial-cluster etcd0=http://${HostIP}:2380 \
+        #     -initial-cluster-state new"
+
+        volumes:
+            # - /home/pav/docker/splunk/data/share/:/opt/splunk
+            - /home/pav/docker/splunk/data/:/home/splunk/data
+        ports:
+            - "8100:8000"
+
+    # etcd_viewer:
+    #     image: nikfoundas/etcd-viewer
+    #     ports:
+    #         - "8080:8080"
+
+# volumes:
+#     ca-certificates:

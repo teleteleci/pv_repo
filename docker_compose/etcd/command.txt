@@ -1,0 +1,16 @@
+# etcd Status
+curl -L http://127.0.0.0:2379/health
+
+# log level
+curl http://127.0.0.1:2379/config/local/log -XPUT -d '{"Level":"DEBUG"}'
+curl http://127.0.0.1:2379/config/local/log -XPUT -d '{"Level":"INFO"}'
+
+#  put value to etcd
+curl -X PUT http://127.0.0.1:2379/v2/keys/Hello -d value=Hi
+curl -X PUT http://127.0.0.1:2379/v2/keys/env/dev17/configuration/test -d value=test_value2
+#  get value from etcd
+curl http://127.0.0.1:2379/v2/keys/Hello
+curl http://127.0.0.1:2379/v2/keys/env/dev17/configuration/test
+
+# wathing changes in folder "env"
+curl http://127.0.0.1:2379/v2/keys/env?wait=true\&recursive=true

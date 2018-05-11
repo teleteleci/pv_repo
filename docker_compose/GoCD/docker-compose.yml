@@ -1,0 +1,29 @@
+version: '2'
+services:
+    gocd:
+        image: gocd/gocd-server:v18.1.0
+        # command:
+        # environment:
+        #     HostIP: "10.130.172.153"
+        #     advertise-client-urls: http://${HostIP}:2379,http://${HostIP}:4001
+        # command:
+        #     "-name gocd"
+
+# docker run -d -p8153:8153 -p8154:8154 gocd/gocd-server:v18.1.0
+        volumes:
+            # v /usr/share/ca-certificates/:/etc/ssl/certs
+            - godata:/var/lib/go/data
+        ports:
+            - "8153:8153"
+            - "8154:8154"
+
+# docker run -d -e GO_SERVER_URL=... gocd/gocd-agent-alpine-3.5:v18.1.0
+    gocd-agent:
+        image: gocd/gocd-agent-alpine-3.5:v18.1.0
+        environment:
+            - GO_SERVER_URL=http://127.0.0.1:8153
+volumes:
+    godata:
+
+networks:
+    gocdnet:

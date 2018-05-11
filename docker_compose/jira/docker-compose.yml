@@ -1,0 +1,47 @@
+version: '3'
+services:
+    postgresql:
+        image: blacklabelops/postgres
+        hostname: postgresql
+        environment:
+            POSTGRES_USER: jira
+            POSTGRES_PASSWORD: jirapwd
+            POSTGRES_DB: jiradb
+            POSTGRES_ENCODING: UNICODE
+            POSTGRES_COLLATE: C
+            POSTGRES_COLLATE_TYPE: C
+        labels:
+          com.blacklabelops.description: "PostgreSQL Database Server"
+          com.blacklabelops.service: "postgresql"
+        volumes:
+            # v /usr/share/ca-certificates/:/etc/ssl/certs
+            # - /usr/share/ca-certificates:/etc/ssl/certs
+            - postgresqldata:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        networks:
+            - jiranet
+
+# jira
+# Server ID B834-EOZA-33U2-NVYU
+# License Key AAABeQ0ODAoPeNp9kUFPwkAQhe/9FU286GGbbiuKJE3Edk1qoCUUSDReljLAGtg2s9sq/97S1ggKHGd35r1v3lxN1oX5DHOTdkxq96jbo9T0k4np2LRrrBBArrM8B7QGIgWpgC2EFpn0WDRh49E4TJgRFds5YLycKkDlEWr4mdQ81RHfgpfz0iqFflxtudhYabY1PgRy69/MqMB0zRUEXIO3Nye2Q+id0dpOdjnUen48HLKxH/YHP1/sKxe4O5hzSYXeMrBhZXsCIgEsAcPAe+q6t4TFb33iulOHRLPXaUOYY7YoUm3tC6Kypf7kCFYlKUrwNBbQtJ2P5UR4p7aoAKUGyWV6ZpMLNP9SbH2qvQZhkLCIDCilD/a93TGqyjt+uSCcaI4a0FvyjQIjxhWXQvF6Q6WLBUht+Aj1w9+DbRqEWUW0b3eOcqgGAXMUqo0wAJWiyGvhl3DcN5OWwLxuLnTz3jNZyTdF7dUgn7vBqXQPzQ/nfjWb+hurAAkkMCwCFFqpkPQ8HNJ9AtDVicyuVYyfldb8AhRt2QErTqckxoQcDX5rWn2zsRpmVA==X02ie
+    jira:
+        image: eugenmayer/jira
+        environment:
+            JIRA_DATABASE_URL: postgresql://jira@postgresql/jiradb
+            JIRA_DB_PASSWORD: jirapwd
+            DOCKER_WAIT_HOST: postgresql
+            DOCKER_WAIT_PORT: 5432
+        ports:
+            - "80:8080"
+        volumes:
+            - jiravolume:/var/atlassian/jira
+        networks:
+            - jiranet
+
+volumes:
+    jiravolume:
+    postgresqldata:
+
+networks:
+    jiranet:

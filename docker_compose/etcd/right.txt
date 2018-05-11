@@ -1,0 +1,33 @@
+2017-12-17 14:56:04.492934 I | etcdmain: etcd Version: 2.3.8
+2017-12-17 14:56:04.492978 I | etcdmain: Git SHA: 7e4fc7e
+2017-12-17 14:56:04.492984 I | etcdmain: Go Version: go1.7.5
+2017-12-17 14:56:04.492988 I | etcdmain: Go OS/Arch: linux/amd64
+2017-12-17 14:56:04.492992 I | etcdmain: setting maximum number of CPUs to 4, total number of available CPUs is 4
+2017-12-17 14:56:04.492997 W | etcdmain: no data-dir provided, using default data-dir ./etcd0.etcd
+2017-12-17 14:56:04.493064 I | etcdmain: listening for peers on http://0.0.0.0:2380
+
+2017-12-17 14:56:04.493092 I | etcdmain: listening for client requests on http://0.0.0.0:2379
+2017-12-17 14:56:04.493115 I | etcdmain: listening for client requests on http://0.0.0.0:4001
+2017-12-17 14:56:04.493324 I | etcdserver: name = etcd0
+2017-12-17 14:56:04.493335 I | etcdserver: data dir = etcd0.etcd
+2017-12-17 14:56:04.493339 I | etcdserver: member dir = etcd0.etcd/member
+2017-12-17 14:56:04.493344 I | etcdserver: heartbeat = 100ms
+2017-12-17 14:56:04.493351 I | etcdserver: election = 1000ms
+2017-12-17 14:56:04.493357 I | etcdserver: snapshot count = 10000
+2017-12-17 14:56:04.493365 I | etcdserver: advertise client URLs = http://192.168.1.175:2379,http://192.168.1.175:4001
+2017-12-17 14:56:04.493372 I | etcdserver: initial advertise peer URLs = http://192.168.1.175:2380
+2017-12-17 14:56:04.493380 I | etcdserver: initial cluster = etcd0=http://192.168.1.175:2380
+2017-12-17 14:56:04.495245 I | etcdserver: starting member 24dc6481f3d40269 in cluster 481f67674aeca726
+2017-12-17 14:56:04.495294 I | raft: 24dc6481f3d40269 became follower at term 0
+2017-12-17 14:56:04.495308 I | raft: newRaft 24dc6481f3d40269 [peers: [], term: 0, commit: 0, applied: 0, lastindex: 0, lastterm: 0]
+2017-12-17 14:56:04.495317 I | raft: 24dc6481f3d40269 became follower at term 1
+2017-12-17 14:56:04.495496 I | etcdserver: starting server... [version: 2.3.8, cluster version: to_be_decided]
+2017-12-17 14:56:04.496047 N | etcdserver: added local member 24dc6481f3d40269 [http://192.168.1.175:2380] to cluster 481f67674aeca726
+2017-12-17 14:56:04.995825 I | raft: 24dc6481f3d40269 is starting a new election at term 1
+2017-12-17 14:56:04.995922 I | raft: 24dc6481f3d40269 became candidate at term 2
+2017-12-17 14:56:04.996143 I | raft: 24dc6481f3d40269 received vote from 24dc6481f3d40269 at term 2
+2017-12-17 14:56:04.996210 I | raft: 24dc6481f3d40269 became leader at term 2
+2017-12-17 14:56:04.996251 I | raft: raft.node: 24dc6481f3d40269 elected leader 24dc6481f3d40269 at term 2
+2017-12-17 14:56:04.996999 I | etcdserver: setting up the initial cluster version to 2.3
+2017-12-17 14:56:05.002674 N | etcdserver: set the initial cluster version to 2.3
+2017-12-17 14:56:05.002914 I | etcdserver: published {Name:etcd0 ClientURLs:[http://192.168.1.175:2379 http://192.168.1.175:4001]} to cluster 481f67674aeca726
