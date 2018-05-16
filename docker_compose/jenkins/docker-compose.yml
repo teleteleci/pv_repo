@@ -4,6 +4,6 @@ services:
         image: shimmi/jenkins
         ports:
             - "8080:8080"
-        volumes:
-            - /home/pav/worka/docker/docker_compose/jenkins/jenkins_home:/var/jenkins_home
-            - /var/run/docker.sock:/var/run/docker.sock
+        # volumes:
+            # - /Users/pav/Documents/Worka/GitRepo/pv_repo/docker_compose/jenkins:/var/jenkins_home
+            # - /var/run/docker.sock:/var/run/docker.sock

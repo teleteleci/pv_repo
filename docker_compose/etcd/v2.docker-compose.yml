@@ -12,7 +12,7 @@ services:
         build:
             context: .
             # args:
-            #     # - export HostIP="${HostIP}"
+            #     # - export HostIP="${HostIP}" 10.130.172.250
             #     - advertise-client-urls="http://${HostIP}:2379,http://${HostIP}:4001"
             #     - listen-client-urls="http://0.0.0.0:2379,http://0.0.0.0:4001"
             #     - initial-advertise-peer-urls="http://${HostIP}:2380"
