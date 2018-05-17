@@ -1,6 +1,7 @@
 apiVersion: apps/v1
-kind: Deploymentmetadata:
-name: nginx-deployment
+kind: Deployment
+metadata:
+  name: webserver
   labels:
     app: nginx
 spec:
@@ -15,6 +16,6 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.7.9
+        image: nginx:alpine
         ports:
         - containerPort: 80
