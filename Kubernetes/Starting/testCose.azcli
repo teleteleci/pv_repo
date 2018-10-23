@@ -1,0 +1,128 @@
+az account list --output table
+
+az account set --subscription "Free Trial"
+
+# az group create --name pvTestK --location westeurope
+
+# az aks create -n aks-pv -g pvTestK --K8s-version 1.8.7 --node-count 3 --node-vm-size Standard_DS1_v2 --generate-ssh-key
+
+# az group delete -n "pvTestK" --no-wait --yes
+
+
+az group delete -n "pvK8s" --no-wait --yes
+az group list --query
+
+################################
+# group
+az group create -n pvK8s -l westeurope
+
+# vnet
+az network vnet create -g pvK8s \
+  -n pvK8s-vnet \
+  --address-prefix 10.240.0.0/24 \
+  --subnet-name pvK8s-subnet
+
+# firewall
+az network nsg create -g pvK8s -n pvK8s-nsg
+
+az network vnet subnet update -g pvK8s \
+  -n pvK8s-subnet \
+  --vnet-name pvK8s-vnet \
+  --network-security-group pvK8s-nsg
+
+# firewall rule that allows external SSH and HTTPS
+az network nsg rule create -g pvK8s \
+  -n pvK8s-allow-ssh \
+  --access allow \
+  --destination-address-prefix '*' \
+  --destination-port-range 22 \
+  --direction inbound \
+  --nsg-name pvK8s-nsg \
+  --protocol tcp \
+  --source-address-prefix '*' \
+  --source-port-range '*' \
+  --priority 1000
+
+az network nsg rule create -g pvK8s \
+  -n pvK8s-allow-api-server \
+  --access allow \
+  --destination-address-prefix '*' \
+  --destination-port-range 6443 \
+  --direction inbound \
+  --nsg-name pvK8s-nsg \
+  --protocol tcp \
+  --source-address-prefix '*' \
+  --source-port-range '*' \
+  --priority 1001
+
+# print all network service group rule
+az network nsg rule list -g pvK8s --nsg-name pvK8s-nsg --query "[].{Name:name, \
+  Direction:direction, Priority:priority, Port:destinationPortRange}" -o table
+
+# Public IP on load balnancer
+az network lb create -g pvK8s \
+  -n pvK8s-lb \
+  --backend-pool-name pvK8s-lb-pool \
+  --public-ip-address pvK8s-pip \
+  --public-ip-address-allocation static
+
+## print public ip
+az network public-ip  list --query="[?name=='pvK8s-pip'].{ResourceGroup:resourceGroup, \
+  Region:location,Allocation:publicIpAllocationMethod,IP:ipAddress}" -o table
+
+# K8s controllers
+az vm availability-set create -g pvK8s -n controller-as
+
+for i in 0 1 2; do
+    echo "[Controller ${i}] Creating public IP..."
+    az network public-ip create -n controller-${i}-pip -g pvK8s > /dev/null
+
+    echo "[Controller ${i}] Creating NIC..."
+    az network nic create -g pvK8s \
+        -n controller-${i}-nic \
+        --private-ip-address 10.240.0.1${i} \
+        --public-ip-address controller-${i}-pip \
+        --vnet pvK8s-vnet \
+        --subnet pvK8s-subnet \
+        --ip-forwarding \
+        --lb-name pvK8s-lb \
+        --lb-address-pools pvK8s-lb-pool > /dev/null
+
+    echo "[Controller ${i}] Creating VM..."
+    az vm create -g pvK8s \
+        -n controller-${i} \
+        --image Canonical:UbuntuServer:16.04.0-LTS:latest \
+        --generate-ssh-keys \
+        --nics controller-${i}-nic \
+        --availability-set controller-as \
+        --nsg '' > /dev/null
+done
+
+# K8s workers
+az vm availability-set create -g pvK8s -n worker-as
+
+for i in 1 2; do
+    echo "[Worker ${i}] Creating public IP..."
+    az network public-ip create -n worker-${i}-pip -g pvK8s > /dev/null
+
+    echo "[Worker ${i}] Creating NIC..."
+    az network nic create -g pvK8s \
+        -n worker-${i}-nic \
+        --private-ip-address 10.240.0.2${i} \
+        --public-ip-address worker-${i}-pip \
+        --vnet pvK8s-vnet \
+        --subnet pvK8s-subnet \
+        --ip-forwarding > /dev/null
+
+    echo "[Worker ${i}] Creating VM..."
+    az vm create -g pvK8s \
+        -n worker-${i} \
+        --image Canonical:UbuntuServer:16.04.0-LTS:latest \
+        --nics worker-${i}-nic \
+        --tags pod-cidr=10.200.${i}.0/24 \
+        --availability-set worker-as \
+        --nsg '' > /dev/null
+done
+
+### print K8s machine
+az vm list -d -g pvK8s -o table

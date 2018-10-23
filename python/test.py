@@ -7,7 +7,7 @@ def function(*args):
 
 
 function(1, 2, 3)
-print("Ola!")
+print("------")
 
 t = [2, 1]
 a, b = t
@@ -23,5 +23,5 @@ def f1(**qargs):
 
 f1(a=0, b=2)
 
-for i in range(10):
+for i in range(3):
     print(i)
