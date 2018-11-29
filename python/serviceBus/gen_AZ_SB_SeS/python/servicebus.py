@@ -31,16 +31,12 @@ class Servicebus(object):
 
 if __name__ == '__main__':
     import json
-    import os
 
     data = {
         'objectType': 'servicebus',
         'objectName': 'abx-de',
         'attr': ''
     }
-
-    os.chdir('/Users/pav/Documents/worka/gitRepo/pv_repo/python/'
-             + 'playWithText/gen_AZ_SB_SeS/')
 
     with open('./definition/queues/testQueue.json') as f:
         data = json.load(f)

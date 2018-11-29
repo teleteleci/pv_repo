@@ -40,12 +40,8 @@ class Subscriptions(Servicebus):
 
 if __name__ == '__main__':
     import json
-    import os
     import subscriptions
     from topic import Topic
-
-    os.chdir('/Users/pav/Documents/worka/gitRepo/pv_repo/python/'
-             + 'playWithText/gen_AZ_SB_SeS/')
 
     with open('./definition/topics/testTopic.json') as f:
         data = json.load(f)

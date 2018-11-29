@@ -87,11 +87,7 @@ class AuthorisationRules(Servicebus):
 
 if __name__ == '__main__':
     import json
-    import os
     import topic
-
-    os.chdir('/Users/pav/Documents/worka/gitRepo/pv_repo/python/'
-             + 'playWithText/gen_AZ_SB_SeS/')
 
     with open('./definition/topics/testTopic.json') as f:
         data = json.load(f)

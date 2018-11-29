@@ -7,16 +7,12 @@ pip3 install virtualenv
 
 ### Create new environment
 ```bash
-cd ~/Environment
-
-mkdir py27_env
-virtualenv py27_env
-virtualenv -p /usr/bin/python2.7 py27_env/
+python3 -m venv myProject
 ```
 
 #### Activate python environment
-```
-bash~/Environment/py27_env/bin/activate
+```bash
+. myProject/bin/activate
 ```
 
 #### Deactivate python environment

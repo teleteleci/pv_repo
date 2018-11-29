@@ -61,6 +61,7 @@ if __name__ == '__main__':
             sort_list(os.listdir(home_dir + '/definition/topics')):
         src += get_topic_resource('./definition/topics/' + topic_file)
 
+    # generate all queues
     for queue_file in \
             sort_list(os.listdir(home_dir + '/definition/queues/')):
         src += get_queue_resource('./definition/queues/' + queue_file)

@@ -1,8 +1,0 @@
-{
-    "objectType": "queue",
-    "objectName": "test-queue",
-    "parameters": {
-        "enableExpress": "true"
-    },
-    "accessPolicies": [["Listen", "Send"], ["Send"], ["Listen"]]
-}

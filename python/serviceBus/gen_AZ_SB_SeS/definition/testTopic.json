@@ -1,9 +1,0 @@
-{
-    "objectType": "topic",
-    "objectName": "test-topic",
-    "parameters": {
-        "autoDeleteOnIdle": "P3D"
-    },
-    "accessPolicies": [["Listen", "Send"], ["Send"], ["Listen"]],
-    "subscriptions": ["lipo","tex"]
-}
