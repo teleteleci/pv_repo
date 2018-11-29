@@ -1,0 +1,7 @@
+{
+    "objectType": "topic",
+    "objectName": "pay-events",
+    "parameters": {},
+    "accessPolicies": [ [ "Send" ], [ "Listen" ] ],
+    "subscriptions": [ "bnf", "lipo" ]
+}

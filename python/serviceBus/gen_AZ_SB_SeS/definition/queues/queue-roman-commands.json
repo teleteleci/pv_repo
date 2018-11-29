@@ -1,0 +1,6 @@
+{
+    "objectType": "queue",
+    "objectName": "roman-commands",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ], [ "Send" ] ]
+}

@@ -1,0 +1,6 @@
+{
+    "objectType": "queue",
+    "objectName": "tex-commands",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ], [ "Send" ] ]
+}

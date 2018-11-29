@@ -1,0 +1,6 @@
+{
+    "objectType": "queue",
+    "objectName": "cas-commands",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ], [ "Send" ] ]
+}

@@ -1,0 +1,7 @@
+{
+    "objectType": "topic",
+    "objectName": "cards-am-notifications",
+    "parameters": {},
+    "accessPolicies": [ [ "Send" ], [ "Listen" ] ],
+    "subscriptions": [ "cards-notification-processor" ]
+}

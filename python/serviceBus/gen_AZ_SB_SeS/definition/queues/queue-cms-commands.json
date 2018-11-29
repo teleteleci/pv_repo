@@ -1,0 +1,6 @@
+{
+    "objectType": "queue",
+    "objectName": "cms-commands",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ], [ "Send" ] ]
+}

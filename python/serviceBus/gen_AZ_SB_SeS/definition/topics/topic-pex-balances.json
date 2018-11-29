@@ -1,0 +1,7 @@
+{
+    "objectType": "topic",
+    "objectName": "pex-balances",
+    "parameters": {},
+    "accessPolicies": [ [ "Send" ], [ "Listen" ] ],
+    "subscriptions": [ "eao" ]
+}

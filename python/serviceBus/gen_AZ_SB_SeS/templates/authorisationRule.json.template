@@ -1,0 +1,12 @@
+,
+        {
+            "type": "Microsoft.ServiceBus/namespaces/{{objectType}}s/authorizationRules",
+            "name": "[concat(parameters('sb_namespaces_name'), '/', '{{objectName}}', '/', '{{policy_name}}')]",
+            "apiVersion": "2017-04-01",
+            "properties": {
+                "rights": {{auth_rules_list}}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/{{objectType}}s', parameters('sb_namespaces_name'), '{{objectName}}')]"
+            ]
+        }

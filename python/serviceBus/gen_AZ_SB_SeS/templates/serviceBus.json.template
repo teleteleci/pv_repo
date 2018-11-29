@@ -1,0 +1,18 @@
+
+        {
+            "name": "[parameters('sb_namespaces_name')]",
+            "type": "Microsoft.ServiceBus/namespaces",
+            "apiVersion": "2017-04-01",
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "Metrics": "*"
+            },
+            "sku": {
+                "name": "Standard",
+                "tier": "Standard"
+            },
+            "properties": {
+                "provisioningState": "Succeeded",
+                "status": "Active"
+            }
+        }

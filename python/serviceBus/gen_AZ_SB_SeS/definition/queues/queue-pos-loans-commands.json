@@ -1,0 +1,6 @@
+{
+    "objectType": "queue",
+    "objectName": "pos-loans-commands",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ], [ "Send" ] ]
+}

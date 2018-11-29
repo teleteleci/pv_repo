@@ -1,0 +1,7 @@
+{
+    "objectType": "topic",
+    "objectName": "mes-events",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ], [ "Send" ] ],
+    "subscriptions": [ "sms-catcher" ]
+}

@@ -1,0 +1,16 @@
+,
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "name": "[concat(parameters('sb_namespaces_name'), '/', '{{topicName}}', '/', '{{subscriptionName}}')]",
+            "apiVersion": "2017-04-01",
+            "properties": {
+                "deadLetteringOnMessageExpiration": false,
+                "defaultMessageTimeToLive": "P14D",
+                "enableBatchedOperations": true,
+                "lockDuration": "PT30S",
+                "status": "Active"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('sb_namespaces_name'), '{{topicName}}')]"
+            ]
+        }

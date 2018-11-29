@@ -1,0 +1,6 @@
+{
+    "objectType": "queue",
+    "objectName": "eod-commands",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen", "Send" ], [ "Send" ], [ "Listen" ] ]
+}

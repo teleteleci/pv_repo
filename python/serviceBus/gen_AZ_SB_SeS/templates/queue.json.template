@@ -1,0 +1,22 @@
+,
+        {
+            "type": "Microsoft.ServiceBus/namespaces/queues",
+            "name": "[concat(parameters('sb_namespaces_name'), '/', '{{queueName}}')]",
+            "apiVersion": "2017-04-01",
+            "properties": {
+                "deadLetteringOnMessageExpiration": {{deadLetteringOnMessageExpiration}},
+                "defaultMessageTimeToLive": "{{defaultMessageTimeToLive}}",
+                "duplicateDetectionHistoryTimeWindow": "{{duplicateDetectionHistoryTimeWindow}}",
+                "enableBatchedOperations": {{enableBatchedOperations}},
+                "enableExpress": {{enableExpress}},
+                "enablePartitioning": {{enablePartitioning}},
+                "lockDuration": "{{lockDuration}}",
+                "maxDeliveryCount": {{maxDeliveryCount}},
+                "maxSizeInMegabytes": {{maxSizeInMegabytes}},
+                "requiresSession": {{requiresSession}},
+                "status": "Active"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('sb_namespaces_name'))]"
+            ]
+        }

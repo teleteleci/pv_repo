@@ -1,0 +1,7 @@
+{
+    "objectType": "topic",
+    "objectName": "bal-events",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ], [ "Send" ] ],
+    "subscriptions": [ "cas" ]
+}

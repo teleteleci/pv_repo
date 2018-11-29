@@ -1,0 +1,21 @@
+,
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "name": "[concat(parameters('sb_namespaces_name'), '/', '{{topicName}}')]",
+            "apiVersion": "2017-04-01",
+            "properties": {
+                "autoDeleteOnIdle": "{{autoDeleteOnIdle}}",
+                "defaultMessageTimeToLive": "{{defaultMessageTimeToLive}}",
+                "duplicateDetectionHistoryTimeWindow": "{{duplicateDetectionHistoryTimeWindow}}",
+                "enableBatchedOperations": {{enableBatchedOperations}},
+                "enableExpress": false,
+                "enablePartitioning": {{enablePartitioning}},
+                "maxSizeInMegabytes": {{maxSizeInMegabytes}},
+                "requiresDuplicateDetection": {{requiresDuplicateDetection}},
+                "status": "{{status}}",
+                "supportOrdering": {{supportOrdering}}
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('sb_namespaces_name'))]"
+            ]
+        }

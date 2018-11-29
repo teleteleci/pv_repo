@@ -1,0 +1,7 @@
+{
+    "objectType": "topic",
+    "objectName": "ddo-events",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ], [ "Send" ] ],
+    "subscriptions": []
+}

@@ -1,0 +1,6 @@
+{
+    "objectType": "queue",
+    "objectName": "ddi-commands",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ], [ "Send" ] ]
+}

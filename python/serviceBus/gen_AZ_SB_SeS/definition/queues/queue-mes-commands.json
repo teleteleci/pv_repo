@@ -1,0 +1,6 @@
+{
+    "objectType": "queue",
+    "objectName": "mes-commands",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ], [ "Send" ] ]
+}

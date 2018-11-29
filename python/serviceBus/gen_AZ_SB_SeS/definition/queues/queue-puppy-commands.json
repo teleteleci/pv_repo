@@ -1,0 +1,6 @@
+{
+    "objectType": "queue",
+    "objectName": "puppy-commands",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ] ]
+}

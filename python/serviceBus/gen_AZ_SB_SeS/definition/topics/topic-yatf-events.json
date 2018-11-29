@@ -1,0 +1,7 @@
+{
+    "objectType": "topic",
+    "objectName": "yatf-events",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ], [ "Send" ] ],
+    "subscriptions": [ "ddi", "pay" ]
+}

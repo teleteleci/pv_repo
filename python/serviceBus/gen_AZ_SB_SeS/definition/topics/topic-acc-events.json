@@ -1,0 +1,7 @@
+{
+    "objectType": "topic",
+    "objectName": "acc-events",
+    "parameters": {},
+    "accessPolicies": [ [ "Send" ], [ "Listen" ] ],
+    "subscriptions": [ "bacc", "bnf", "eao", "eod" ]
+}

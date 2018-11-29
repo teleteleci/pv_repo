@@ -1,0 +1,6 @@
+{
+    "objectType": "queue",
+    "objectName": "yatf-commands",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ], [ "Send" ] ]
+}

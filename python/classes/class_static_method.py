@@ -33,6 +33,6 @@ class Pizza():
             return True
 
 
-ingrediaents = ["chees", "tomato", "garlic"]
+ingredients = ["chees", "tomato", "garlic"]
 if all(Pizza.validate_topping(i) for i in ingrediaents):
     pizza = Pizza(ingrediaents)

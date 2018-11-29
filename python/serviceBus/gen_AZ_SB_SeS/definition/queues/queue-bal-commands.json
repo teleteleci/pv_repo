@@ -1,0 +1,6 @@
+{
+    "objectType": "queue",
+    "objectName": "bal-commands",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ], [ "Send" ] ]
+}

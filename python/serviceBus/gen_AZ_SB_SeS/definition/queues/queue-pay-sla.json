@@ -1,0 +1,6 @@
+{
+    "objectType": "queue",
+    "objectName": "pay-sla",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen", "Send" ] ]
+}

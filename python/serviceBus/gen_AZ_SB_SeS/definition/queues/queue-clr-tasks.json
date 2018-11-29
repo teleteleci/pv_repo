@@ -1,0 +1,6 @@
+{
+    "objectType": "queue",
+    "objectName": "clr-tasks",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen", "Send" ] ]
+}

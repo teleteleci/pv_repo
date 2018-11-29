@@ -1,0 +1,6 @@
+{
+    "objectType": "queue",
+    "objectName": "cardsv-schedule",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen", "Send" ] ]
+}

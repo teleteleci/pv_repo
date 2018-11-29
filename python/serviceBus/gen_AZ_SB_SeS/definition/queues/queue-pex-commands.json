@@ -1,0 +1,6 @@
+{
+    "objectType": "queue",
+    "objectName": "pex-commands",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ], [ "Send" ] ]
+}
