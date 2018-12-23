@@ -315,6 +315,63 @@
         },
         {
             "type": "Microsoft.ServiceBus/namespaces/topics",
+            "name": "[concat(parameters('sb_namespaces_name'), '/', 'cardsv-events')]",
+            "apiVersion": "2017-04-01",
+            "properties": {
+                "autoDeleteOnIdle": "P1D",
+                "defaultMessageTimeToLive": "P14D",
+                "duplicateDetectionHistoryTimeWindow": "PT30S",
+                "enableBatchedOperations": true,
+                "enableExpress": false,
+                "enablePartitioning": false,
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": true,
+                "status": "Active",
+                "supportOrdering": true
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('sb_namespaces_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/authorizationRules",
+            "name": "[concat(parameters('sb_namespaces_name'), '/', 'cardsv-events', '/', 'cardsvEventsListenPolicy')]",
+            "apiVersion": "2017-04-01",
+            "properties": {
+                "rights": ["Listen"]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('sb_namespaces_name'), 'cardsv-events')]"
+            ]
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/authorizationRules",
+            "name": "[concat(parameters('sb_namespaces_name'), '/', 'cardsv-events', '/', 'cardsvEventsSendPolicy')]",
+            "apiVersion": "2017-04-01",
+            "properties": {
+                "rights": ["Send"]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('sb_namespaces_name'), 'cardsv-events')]"
+            ]
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "name": "[concat(parameters('sb_namespaces_name'), '/', 'cardsv-events', '/', 'lipo')]",
+            "apiVersion": "2017-04-01",
+            "properties": {
+                "deadLetteringOnMessageExpiration": false,
+                "defaultMessageTimeToLive": "P14D",
+                "enableBatchedOperations": true,
+                "lockDuration": "PT30S",
+                "status": "Active"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('sb_namespaces_name'), 'cardsv-events')]"
+            ]
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
             "name": "[concat(parameters('sb_namespaces_name'), '/', 'clri-events')]",
             "apiVersion": "2017-04-01",
             "properties": {
@@ -737,6 +794,21 @@
             "apiVersion": "2017-04-01",
             "properties": {
                 "rights": ["Send"]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('sb_namespaces_name'), 'ftpconnector-events')]"
+            ]
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "name": "[concat(parameters('sb_namespaces_name'), '/', 'ftpconnector-events', '/', 'cas')]",
+            "apiVersion": "2017-04-01",
+            "properties": {
+                "deadLetteringOnMessageExpiration": false,
+                "defaultMessageTimeToLive": "P14D",
+                "enableBatchedOperations": true,
+                "lockDuration": "PT30S",
+                "status": "Active"
             },
             "dependsOn": [
                 "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('sb_namespaces_name'), 'ftpconnector-events')]"
@@ -1191,6 +1263,37 @@
         },
         {
             "type": "Microsoft.ServiceBus/namespaces/topics",
+            "name": "[concat(parameters('sb_namespaces_name'), '/', 'roman-events')]",
+            "apiVersion": "2017-04-01",
+            "properties": {
+                "autoDeleteOnIdle": "P1D",
+                "defaultMessageTimeToLive": "P14D",
+                "duplicateDetectionHistoryTimeWindow": "PT30S",
+                "enableBatchedOperations": true,
+                "enableExpress": false,
+                "enablePartitioning": false,
+                "maxSizeInMegabytes": 1024,
+                "requiresDuplicateDetection": true,
+                "status": "Active",
+                "supportOrdering": true
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('sb_namespaces_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics/authorizationRules",
+            "name": "[concat(parameters('sb_namespaces_name'), '/', 'roman-events', '/', 'romanEventsListenPolicy')]",
+            "apiVersion": "2017-04-01",
+            "properties": {
+                "rights": ["Listen"]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('sb_namespaces_name'), 'roman-events')]"
+            ]
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/topics",
             "name": "[concat(parameters('sb_namespaces_name'), '/', 'swifti-events')]",
             "apiVersion": "2017-04-01",
             "properties": {
@@ -1638,6 +1741,49 @@
             },
             "dependsOn": [
                 "[resourceId('Microsoft.ServiceBus/namespaces/queues', parameters('sb_namespaces_name'), 'ddi-commands')]"
+            ]
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/queues",
+            "name": "[concat(parameters('sb_namespaces_name'), '/', 'ddo-commands')]",
+            "apiVersion": "2017-04-01",
+            "properties": {
+                "deadLetteringOnMessageExpiration": false,
+                "defaultMessageTimeToLive": "P14D",
+                "duplicateDetectionHistoryTimeWindow": "PT30S",
+                "enableBatchedOperations": true,
+                "enableExpress": false,
+                "enablePartitioning": false,
+                "lockDuration": "PT30S",
+                "maxDeliveryCount": 10,
+                "maxSizeInMegabytes": 1024,
+                "requiresSession": false,
+                "status": "Active"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', parameters('sb_namespaces_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/queues/authorizationRules",
+            "name": "[concat(parameters('sb_namespaces_name'), '/', 'ddo-commands', '/', 'ddoCommandsListenPolicy')]",
+            "apiVersion": "2017-04-01",
+            "properties": {
+                "rights": ["Listen"]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/queues', parameters('sb_namespaces_name'), 'ddo-commands')]"
+            ]
+        },
+        {
+            "type": "Microsoft.ServiceBus/namespaces/queues/authorizationRules",
+            "name": "[concat(parameters('sb_namespaces_name'), '/', 'ddo-commands', '/', 'ddoCommandsSendPolicy')]",
+            "apiVersion": "2017-04-01",
+            "properties": {
+                "rights": ["Send"]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/queues', parameters('sb_namespaces_name'), 'ddo-commands')]"
             ]
         },
         {

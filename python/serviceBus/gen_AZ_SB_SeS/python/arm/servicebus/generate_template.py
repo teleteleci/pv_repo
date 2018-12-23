@@ -1,8 +1,8 @@
-from arm.servicebus.servicebus import Servicebus
-from arm.servicebus.topic import Topic
-from arm.servicebus.queue import Queue
-from arm.servicebus.authorizationRules import AuthorisationRules
-from arm.servicebus.subscriptions import Subscriptions
+from servicebus import Servicebus
+from topic import Topic
+from queue import Queue
+from authorizationRules import AuthorisationRules
+from subscriptions import Subscriptions
 import json
 import os
 from jinja2 import Template
@@ -69,5 +69,6 @@ if __name__ == '__main__':
     with open('./templates/serviceBus-template.json') as f:
         template = Template(f.read())
 
-    f = open("abx-pv-sb-dev-templates-gen.json", "w")
+    f = open("sb-templates-gen.json", "w")
     f.write(template.render(resources=src))
+    f.close()

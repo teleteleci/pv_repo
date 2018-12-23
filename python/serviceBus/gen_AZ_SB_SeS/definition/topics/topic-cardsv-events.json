@@ -1,7 +1,7 @@
 {
     "objectType": "topic",
-    "objectName": "ftpconnector-events",
+    "objectName": "cardsv-events",
     "parameters": {},
     "accessPolicies": [ [ "Listen" ], [ "Send" ] ],
-    "subscriptions": [ "cas" ]
+    "subscriptions": [ "lipo" ]
 }

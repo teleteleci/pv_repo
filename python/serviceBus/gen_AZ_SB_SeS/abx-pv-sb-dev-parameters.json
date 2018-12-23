@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "sb_namespaces_name": {
-            "value": "abx-pv-sb-dev"
+            "value": "abx-de-starous-svcbus"
         }
     }
 }

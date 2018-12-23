@@ -2,9 +2,7 @@ from servicebus import Servicebus
 
 
 class AuthorisationRules(Servicebus):
-    """
-    AuthorisationRules generates arm template from input json
-    """
+    """AuthorisationRules generates arm template from input json"""
     access_policies_values = [
         ['Listen', 'Send'],
         ['Send', 'Listen'],
@@ -54,7 +52,7 @@ class AuthorisationRules(Servicebus):
 
     def get_default(self, access_policy_type):
         """
-        Returns default azure arm parameters.
+        Returns default azure AM arm parameters.
 
         :param: access_policy_type: Type of access policy like a ["Send"]
         :return: Azure arm default parameters Dictionary
@@ -68,7 +66,7 @@ class AuthorisationRules(Servicebus):
             'objectName': self.object_name,
             'objectType': self.object_type,
             'policy_name': self.get_policy_name(access_policy_type),
-            # Convert ['Send'] to ["send"]
+            # Convert ['Send'] to ["Send"]
             'auth_rules_list': json.dumps(access_policy_type, indent=None)
         }
 

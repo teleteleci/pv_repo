@@ -1,0 +1,7 @@
+{
+    "objectType": "topic",
+    "objectName": "roman-events",
+    "parameters": {},
+    "accessPolicies": [ [ "Listen" ] ],
+    "subscriptions": []
+}

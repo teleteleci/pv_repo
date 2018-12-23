@@ -6,7 +6,7 @@ import re
 import json
 import datetime
 from ansible.module_utils.basic import *
-import sys 
+import sys
 
 DATE_FORMAT = "%Y-%m-%d"
 
@@ -115,40 +115,45 @@ def mark_released(url, new_release, auth):
 
     except Exception as e:
         print("Could not call {}, with response {}".format(url, response))
-        raise
+        raise e
     return response.json()
 
 # curl -fk -H 'application/json' -X POST -d '{"title": "test", "text": "test"}' 'https://outlook.office.com/webhook/37158330-beda-48d3-88db-9b43fcd4d04c@5675d321-19d1-4c95-9684-2c28ac8f80a4/IncomingWebhook/b095f7091ffe4328b87456a69f8377dd/b7e06719-e7b8-4b1a-9ca6-a57d185365e1'
-def send_info_msteams(url, release_version, proxy_dict):
-  try:
-    rq_data = json.dumps({
-        "title": "New release in JIRA",
-        "text": "Release date: " + get_current_date() + "\r\nRelease version: " + release_version})
 
-    response = requests.post(
+
+def send_info_msteams(url, release_version, proxy_dict):
+    try:
+        rq_data = json.dumps({
+            "title": "New release in JIRA",
+            "text": "Release date: " + get_current_date() +
+            "\r\nRelease version: " + release_version})
+
+        response = requests.post(
             url=url,
             data=rq_data,
             headers={"Content-Type": "application/json"},
             proxies=proxy_dict)
 
-    if(response.ok):
-	pass
-    	# print(response.json())
-    else:
-    	print("response.headers - {}".format(response.headers))
-    	print("response - {}".format(response.text))
-    	response.raise_for_status()
+        if(response.ok):
+            pass
+            # print(response.json())
+        else:
+            print("response.headers - {}".format(response.headers))
+            print("response - {}".format(response.text))
+            response.raise_for_status()
 
-  except Exception as e:
-      print("Could not call {}, with response {}".format(url, response))
-      raise
-  return response.json()
+    except Exception as e:
+        print("Could not call {}, with response {}".format(url, response))
+        raise e
+    return response.json()
 
 # ansible module definition
+
+
 def main():
     if sys.version_info < (3, 0):
         reload(sys)
-        sys.setdefaultencoding( "utf8" )
+        sys.setdefaultencoding("utf8")
 
     fields = {
         "jira_user": {"required": True, "type": "str"},
@@ -185,12 +190,12 @@ def main():
                 "New_release": new_release['name']}
 
     proxy_dict = {
-              "http": get_ans_input(module.params, "http_proxy"),
-              "https": get_ans_input(module.params, "https_proxy")
-            }
+        "http": get_ans_input(module.params, "http_proxy"),
+        "https": get_ans_input(module.params, "https_proxy")
+    }
     send_info_msteams(get_ans_input(module.params, "url_msteams"),
                       origin_release['name'],
-                      proxy_dict) 
+                      proxy_dict)
 
     module.exit_json(changed=False, meta=response)
 
