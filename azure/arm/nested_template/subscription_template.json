@@ -1,0 +1,54 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "topicConfig": {
+            "type":"object",
+            "metadata": {
+                "description": "Team all topic list."
+            }
+        },
+        "ownerTeam": {
+            "type": "string",
+            "metadata": {
+                "description": "Owner team"
+            }
+        }
+    },
+    "resources": [
+        {
+            "comments": "Topic send acces policy settings.",
+            "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('topicConfig').sbNamespace, '/', parameters('topicConfig').name, '/', parameters('topicConfig').consumers[copyIndex('consumerLoop')].application)]",
+            "copy": {
+                "name": "consumerLoop",
+                "count": "[length(parameters('topicConfig').consumers)]"
+            },
+            "properties": {
+                "mode": "incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "copy": [
+                        {
+                            "name": "resources",
+                            "count": "[length(parameters('topicConfig').consumers[copyIndex('consumerLoop')].subscriptionOptions.rules)]",
+                            "input": {
+                                "name": "[concat(parameters('topicConfig').sbNamespace, '/', parameters('topicConfig').name, '/', parameters('topicConfig').consumers[copyIndex('consumerLoop')].application, '/' ,parameters('topicConfig').consumers[copyIndex('consumerLoop')].subscriptionOptions.rules[copyIndex('resources')].ruleName)]",
+                                "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+                                "apiVersion": "2017-04-01",
+                                "properties": {
+                                    "filterType": "SqlFilter",
+                                    "sqlFilter": {
+                                        "sqlExpression": "[parameters('topicConfig').consumers[copyIndex('consumerLoop')].subscriptionOptions.rules[copyIndex('resources')].sqlExpression]"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
