@@ -5,7 +5,7 @@
         "topicConfig": {
             "type":"object",
             "metadata": {
-                "description": "Team all topic list."
+                "description": "Topic definition."
             }
         }
     },
@@ -27,7 +27,7 @@
                     "copy": [
                         {
                             "name": "resources",
-                            "count": "[length(parameters('topicConfig').consumers[copyIndex('consumerLoop')].subscriptionOptions.rules)]",
+                            "count": "[length(parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules)]",
                             "input": {
                                 "name": "[concat(parameters('topicConfig').sbNamespace, '/', parameters('topicConfig').name, '/', parameters('topicConfig').consumers[copyIndex('consumerLoop')].application, '/' ,parameters('topicConfig').consumers[copyIndex('consumerLoop')].subscriptionOptions.rules[copyIndex('resources')].ruleName)]",
                                 "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
