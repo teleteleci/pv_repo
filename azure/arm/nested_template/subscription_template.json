@@ -29,13 +29,13 @@
                             "name": "resources",
                             "count": "[length(parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules)]",
                             "input": {
-                                "name": "[concat(parameters('topicConfig').sbNamespace, '/', parameters('topicConfig').name, '/', parameters('topicConfig').consumers[copyIndex('consumerLoop')].application, '/' ,parameters('topicConfig').consumers[copyIndex('consumerLoop')].subscriptionOptions.rules[copyIndex('resources')].ruleName)]",
+                                "name": "[concat(parameters('topicConfig').sbNamespace, '/', parameters('topicConfig').name, '/', parameters('topicConfig').consumers[copyIndex('consumerLoop')].application, '/' ,parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules[copyIndex('resources')].ruleName)]",
                                 "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
                                 "apiVersion": "2017-04-01",
                                 "properties": {
                                     "filterType": "SqlFilter",
                                     "sqlFilter": {
-                                        "sqlExpression": "[parameters('topicConfig').consumers[copyIndex('consumerLoop')].subscriptionOptions.rules[copyIndex('resources')].sqlExpression]"
+                                        "sqlExpression": "[parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules[copyIndex('resources')].sqlExpression]"
                                     }
                                 }
                             }
