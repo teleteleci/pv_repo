@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "topicConfig": {
-            "type":"object",
+            "type": "object",
             "metadata": {
                 "description": "Topic definition."
             }
@@ -27,15 +27,51 @@
                     "copy": [
                         {
                             "name": "resources",
-                            "count": "[length(parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules)]",
+                            "count": "[if(contains(parameters('topicConfig').consumers[copyIndex('consumerLoop')], 'rules'), length(parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules),1)]",
                             "input": {
-                                "name": "[concat(parameters('topicConfig').sbNamespace, '/', parameters('topicConfig').name, '/', parameters('topicConfig').consumers[copyIndex('consumerLoop')].application, '/' ,parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules[copyIndex('resources')].ruleName)]",
+                                "name": "[concat(parameters('topicConfig').sbNamespace, '/', parameters('topicConfig').name, '/', parameters('topicConfig').consumers[copyIndex('consumerLoop')].application, '/' , if(contains(parameters('topicConfig').consumers[copyIndex('consumerLoop')], 'rules'),parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules[copyIndex('resources')].ruleName,'DefaultSqlRule'))]",
                                 "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
                                 "apiVersion": "2017-04-01",
                                 "properties": {
                                     "filterType": "SqlFilter",
                                     "sqlFilter": {
-                                        "sqlExpression": "[parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules[copyIndex('resources')].sqlExpression]"
+                                        "sqlExpression": "[if(contains(parameters('topicConfig').consumers[copyIndex('consumerLoop')], 'rules'),parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules[copyIndex('resources')].sqlExpression,'8 = 8')]"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "[concat(parameters('topicConfig').name, '-', parameters('topicConfig').consumers[copyIndex('consumerLoop')].application, '-sqlRules')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('topicConfig').sbNamespace, parameters('topicConfig').name, parameters('topicConfig').consumers[copyIndex('consumerLoop')].application)]"
+            ],
+            "copy": {
+                "name": "consumerLoop",
+                "count": "[length(parameters('topicConfig').consumers)]"
+            },
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "copy": [
+                        {
+                            "name": "resources",
+                            "count": "[if(contains(parameters('topicConfig').consumers[copyIndex('consumerLoop')], 'rules'), length(parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules),1)]",
+                            "input": {
+                                "name": "[concat(parameters('topicConfig').sbNamespace, '/', parameters('topicConfig').name, '/', parameters('topicConfig').consumers[copyIndex('consumerLoop')].application, '/' , if(contains(parameters('topicConfig').consumers[copyIndex('consumerLoop')], 'rules'),parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules[copyIndex('resources')].ruleName,'DefaultSqlRule'))]",
+                                "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+                                "apiVersion": "2017-04-01",
+                                "properties": {
+                                    "filterType": "SqlFilter",
+                                    "sqlFilter": {
+                                        "sqlExpression": "[if(contains(parameters('topicConfig').consumers[copyIndex('consumerLoop')], 'rules'),parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules[copyIndex('resources')].sqlExpression,'8 = 8')]"
                                     }
                                 }
                             }
