@@ -18,30 +18,6 @@
             "copy": {
                 "name": "consumerLoop",
                 "count": "[length(parameters('topicConfig').consumers)]"
-            },
-            "properties": {
-                "mode": "incremental",
-                "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "copy": [
-                        {
-                            "name": "resources",
-                            "count": "[if(contains(parameters('topicConfig').consumers[copyIndex('consumerLoop')], 'rules'), length(parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules),1)]",
-                            "input": {
-                                "name": "[concat(parameters('topicConfig').sbNamespace, '/', parameters('topicConfig').name, '/', parameters('topicConfig').consumers[copyIndex('consumerLoop')].application, '/' , if(contains(parameters('topicConfig').consumers[copyIndex('consumerLoop')], 'rules'),parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules[copyIndex('resources')].ruleName,'DefaultSqlRule'))]",
-                                "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
-                                "apiVersion": "2017-04-01",
-                                "properties": {
-                                    "filterType": "SqlFilter",
-                                    "sqlFilter": {
-                                        "sqlExpression": "[if(contains(parameters('topicConfig').consumers[copyIndex('consumerLoop')], 'rules'),parameters('topicConfig').consumers[copyIndex('consumerLoop')].rules[copyIndex('resources')].sqlExpression,'8 = 8')]"
-                                    }
-                                }
-                            }
-                        }
-                    ]
-                }
             }
         },
         {
