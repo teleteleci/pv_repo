@@ -1,0 +1,44 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageList": {
+            "type": "array"
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat('CreateSa-', copyIndex())]",
+            "type": "Microsoft.Resources/deployments",
+            "condition": "[not(empty(parameters('storageList')))]",
+            "copy": {
+                "name": "iterator",
+                "count": "[length(parameters('storageList'))]",
+                "mode": "serial"
+            },
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": [
+                        {
+                            "type": "Microsoft.Storage/storageAccounts",
+                            "name": "[parameters('storageList')[copyIndex()].StorageName]",
+                            "apiVersion": "2017-06-01",
+                            "location": "[resourceGroup().location]",
+                            "sku":{
+                                "name": "Standard_LRS"
+                            },
+                            "kind": "Storage",
+                            "properties": {
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+
+    ]
+}
