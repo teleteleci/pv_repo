@@ -1,6 +1,6 @@
 AZ_SUBSCRIPTION='ABX_DEV'
 AZ_LOCTION='westeurope'
-AZURE_OWNER='Pavel Vit'
+AZURE_OWNER='Pavel_Vit'
 
 FIRST_RG='pv-test-rg1'
 STORAGE_LIST="[]"
