@@ -1,0 +1,6 @@
+{% set xxx = {} %}
+{% set server_ip = [] %}
+{% for element in elements %}
+    {{server_ip.append(element)}}
+{% endfor %}
+{{{"a":server_ip}}}

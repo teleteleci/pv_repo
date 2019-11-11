@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "serviceBus": {
+            "value": {
+                "domain": "pv",
+                "sku": {
+                    "name": "Premium",
+                    "tier": "Premium",
+                    "capacity": 1
+                },
+                "networkRuleWhiteList":{
+                    "virtualNetworkList":[],
+                    "ipRules": []
+                }
+            }
+        },
+        "privileges": {
+            "value": [
+                {
+                    "comments": "PROD_TEAM_ALFA",
+                    "principalId": "d458b44f-2971-40d2-afaa-8f5026765287",
+                    "builtInRoleType": "Service Bus Data Owner"
+                }
+            ]
+        }
+
+    }
+}

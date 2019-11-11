@@ -1,0 +1,171 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+
+        "resourceNamePrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Prefix for the resources."
+            }
+        },
+        "environment": {
+            "type": "string",
+            "metadata": {
+                "description": "Environment name."
+            }
+        },
+        "owner": {
+            "type": "string",
+            "metadata": {
+                "description": "Tag of resource ownership."
+            }
+        },
+        "enableDiagnostics": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Flag whether to enable diagnostic settings."
+            }
+        },
+
+        "serviceBus": {
+            "type": "object",
+            "metadata": {
+                "description": "Service bus namespace parametrization."
+            }
+        },
+
+        "privileges": {
+            "type": "array",
+            "metadata": {
+                "description": "Privileges configuration array."
+            }
+        }
+
+    },
+    "variables": {
+
+        "resourceNameSvcBus": "[concat(parameters('resourceNamePrefix'), '-', parameters('serviceBus').domain, '-svcbus')]",
+
+        "Service Bus Data Owner": "[concat('/subscriptions/',subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', '090c5cfd-751d-490a-894a-3ce6f1109419')]",
+        "Contributor": "[concat('/subscriptions/',subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b24988ac-6180-42a0-ab88-20f7382dd24c')]",
+        "Reader": "[concat('/subscriptions/',subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'acdd72a7-3385-48ef-bd42-f606fba81ae7')]",
+
+        "tags": {
+            "Metrics": "*",
+            "environment": "[parameters('environment')]",
+            "owner": "[parameters('owner')]"
+        },
+
+        "diagnosticSettings": {
+            "svcBus": {
+                "diagnosticName": "[concat(variables('resourceNameSvcBus'), '-diagnostic')]",
+                "storageAccountId": "[resourceId(subscription().subscriptionId, concat(parameters('resourceNamePrefix'), '-diagnostic-rg'), 'Microsoft.Storage/storageAccounts', concat(parameters('resourceNamePrefix'), 'diagsvcbussa'))]"
+            },
+            "retentionPolicy": {
+                "enabled": true,
+                "days": 3
+            }
+        }
+
+    },
+    "resources": [
+
+        {
+            "comments": "Service bus resources group - delete lock",
+            "type": "Microsoft.Authorization/locks",
+            "name": "delete-lock",
+            "apiVersion": "2016-09-01",
+            "properties": {
+                "level": "CanNotDelete"
+            }
+        },
+
+        {
+            "comments": "Service bus namespace.",
+            "type": "Microsoft.ServiceBus/namespaces",
+            "name": "[variables('resourceNameSvcBus')]",
+            "apiVersion": "2017-04-01",
+            "location": "[resourceGroup().location]",
+            "tags": "[variables('tags')]",
+            "sku": "[parameters('serviceBus').sku]"
+        },
+
+        {
+            "comments": "Service bus namespace - role assignments.",
+            "type": "Microsoft.ServiceBus/namespaces/providers/roleAssignments",
+            "apiVersion": "2018-01-01-preview",
+            "name": "[concat(variables('resourceNameSvcBus'), '/Microsoft.Authorization/', guid(concat(variables('resourceNameSvcBus'), parameters('privileges')[copyIndex('privilegesLoop')].principalId, parameters('privileges')[copyIndex('privilegesLoop')].builtInRoleType)))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', variables('resourceNameSvcBus'))]"
+            ],
+            "copy": {
+                "name": "privilegesLoop",
+                "count": "[length(parameters('privileges'))]"
+            },
+            "properties": {
+                "roleDefinitionId": "[variables(parameters('privileges')[copyIndex('privilegesLoop')].builtInRoleType)]",
+                "principalId": "[parameters('privileges')[copyIndex('privilegesLoop')].principalId]"
+            }
+        },
+
+        {
+            "condition": "[parameters('enableDiagnostics')]",
+            "comments": "Service bus namespace - diagnostic settings",
+            "type": "Microsoft.ServiceBus/namespaces/providers/diagnosticSettings",
+            "name": "[concat(variables('resourceNameSvcBus'), '/Microsoft.Insights/', variables('diagnosticSettings').svcBus.diagnosticName)]",
+            "apiVersion": "2017-05-01-preview",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', variables('resourceNameSvcBus'))]"
+            ],
+            "properties": {
+                "storageAccountId": "[variables('diagnosticSettings').svcBus.storageAccountId]",
+                "metrics": [
+                    {
+                        "category": "AllMetrics",
+                        "enabled": true,
+                        "retentionPolicy": "[variables('diagnosticSettings').retentionPolicy]"
+                    }
+                ],
+                "logs": [
+                    {
+                        "category": "OperationalLogs",
+                        "enabled": true,
+                        "retentionPolicy": "[variables('diagnosticSettings').retentionPolicy]"
+                    }
+                ]
+            }
+        },
+
+        {
+            "type": "Microsoft.ServiceBus/namespaces/networkRuleSets",
+            "apiVersion": "2018-01-01-preview",
+            "name": "[concat(variables('resourceNameSvcBus'), '/default')]",
+            "condition": "[equals(toLower(parameters('serviceBus').sku.tier), 'premium')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.ServiceBus/namespaces', variables('resourceNameSvcBus'))]"
+            ],
+            "properties": {
+                "defaultAction": "Deny",
+                "ipRules": "[parameters('serviceBus').networkRuleWhiteList.ipRules]",
+                "copy": [
+                    {
+                        "name": "virtualNetworkRules",
+                        "count": "[length(parameters('serviceBus').networkRuleWhiteList.virtualNetworkList)]",
+                        "input": {
+                            "subnet": {
+                                "id": "[concat('/subscriptions/', parameters('serviceBus').networkRuleWhiteList.virtualNetworkList[copyIndex('virtualNetworkRules')].subscriptionId, '/resourceGroups/', parameters('serviceBus').networkRuleWhiteList.virtualNetworkList[copyIndex('virtualNetworkRules')].resourceGroup, '/providers/Microsoft.Network/virtualNetworks/', parameters('serviceBus').networkRuleWhiteList.virtualNetworkList[copyIndex('virtualNetworkRules')].vnetName, '/subnets/', parameters('serviceBus').networkRuleWhiteList.virtualNetworkList[copyIndex('virtualNetworkRules')].subnetName)]"
+                            },
+                            "ignoreMissingVnetServiceEndpoint": false
+                        }
+                    }
+                ]
+            }
+        }
+
+    ],
+    "outputs": {}
+
+}
