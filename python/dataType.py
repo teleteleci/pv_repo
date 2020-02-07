@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # types
 # tuple imutable ordered sequence of value
 tuple_a = (1, 2, 3, 4)

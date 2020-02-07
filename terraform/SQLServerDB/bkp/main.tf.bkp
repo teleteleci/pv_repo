@@ -1,0 +1,111 @@
+# variable definition
+variable "environment" {
+    type = object(
+        {
+            subscription = string
+            envPrefix = string
+        }
+    )
+}
+
+variable "rg" {
+    type = object(
+        {
+            domain = string
+            location = string
+            tags = map(any)
+        }
+    )
+}
+
+variable "sqlServer" {
+    description = "SQL server parameters definition"
+    type = object(
+        {
+            administrator_login = string
+            version = string
+            # administrator_password = string
+            aad_admin = object(
+                {
+                    role_name = string
+                    azure_aad_object_id = string
+                    tenant_id = string
+                }
+            )
+            databases = list(object(
+                    {
+                        db_name = string
+                        db_size = string
+                        name = string
+                        tier = string
+                    }
+
+                )
+            )
+            databases = list(any)
+        }
+    )
+}
+
+variable "administrator_password" {
+    type = string
+    default = "oslik123_"
+}
+
+# Configure the Microsoft Azure Provider
+provider "azurerm" {
+    version = "=1.37.0"
+
+# Because I used az login i do not have to used HC credential
+#    subscription_id = "a0dcddb9-cf21-4f85-b8d7-d3bdf0cb0426"
+#    client_id       = "d0da0f18-5f44-4fd7-9586-44540a151507"
+#    client_secret   = "${var.client_secret}"
+#    tenant_id       = "1dbf4329-befc-4477-8668-8ec245c081bd"
+}
+
+# Create a resource group if it doesn’t exist
+resource "azurerm_resource_group" "resource_group" {
+    name = "${var.environment.envPrefix}-${var.rg.domain}-sqlsrv-rg"
+    location = "${var.rg.location}"
+
+    tags = "${var.rg.tags}"
+}
+
+resource "azurerm_sql_server" "sqlsrv" {
+    depends_on                   = [azurerm_resource_group.resource_group]
+
+    name                         = "${var.environment.envPrefix}-${var.rg.domain}-sqlsrv"
+    resource_group_name          = "${var.environment.envPrefix}-${var.rg.domain}-sqlsrv-rg"
+    location                     = "${var.rg.location}"
+    version                      = "${var.sqlServer.version}"
+    administrator_login          = "${var.sqlServer.administrator_login}"
+    administrator_login_password = "${var.administrator_password}"
+
+    tags = "${var.rg.tags}"
+
+}
+
+resource "azurerm_sql_database" "SQL_server_databases" {
+    count = length(var.sqlServer.databases)
+    depends_on = [azurerm_sql_server.sqlsrv]
+
+    name                             = "${var.sqlServer.databases[count.index].db_name}"
+    resource_group_name              = "${var.environment.envPrefix}-${var.rg.domain}-sqlsrv-rg"
+    location                         = "${var.rg.location}"
+    server_name                      = "${var.environment.envPrefix}-${var.rg.domain}-sqlsrv"
+    requested_service_objective_name = "${var.sqlServer.databases[count.index].sku_name}"
+    edition                          = "${var.sqlServer.databases[count.index].tier}"
+    max_size_bytes                   = "${var.sqlServer.databases[count.index].db_size}"
+    tags = "${var.rg.tags}"
+
+}
+
+resource "azurerm_sql_active_directory_administrator" "aad_admin" {
+    depends_on = [azurerm_sql_server.sqlsrv]
+
+    server_name         = "${var.environment.envPrefix}-${var.rg.domain}-sqlsrv"
+    resource_group_name = "${var.environment.envPrefix}-${var.rg.domain}-sqlsrv-rg"
+    login               = "${var.sqlServer.administrator_login}"
+    tenant_id           = "${var.sqlServer.aad_admin.tenant_id}"
+    object_id           = "${var.sqlServer.aad_admin.azure_aad_object_id}"
+}

@@ -1,0 +1,217 @@
+{
+  "version": 4,
+  "terraform_version": "0.12.12",
+  "serial": 14,
+  "lineage": "618a5ad6-dce4-1d55-178b-5d184f58eb00",
+  "outputs": {},
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "azurerm_resource_group",
+      "name": "resource_group",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/a0dcddb9-cf21-4f85-b8d7-d3bdf0cb0426/resourceGroups/abdedv-pvtest-sqlsrv-rg",
+            "location": "westeurope",
+            "name": "abdedv-pvtest-sqlsrv-rg",
+            "tags": {
+              "note": "Delete anytime",
+              "subscription": "xxx"
+            }
+          },
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_sql_active_directory_administrator",
+      "name": "aad_admin",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/a0dcddb9-cf21-4f85-b8d7-d3bdf0cb0426/resourceGroups/abdedv-pvtest-sqlsrv-rg/providers/Microsoft.Sql/servers/abdedv-pvtest-sqlsrv/administrators/activeDirectory",
+            "login": "DEV_ADMINS",
+            "object_id": "be66ed76-1d61-43d4-873e-322a29ada4db",
+            "resource_group_name": "abdedv-pvtest-sqlsrv-rg",
+            "server_name": "abdedv-pvtest-sqlsrv",
+            "tenant_id": "1dbf4329-befc-4477-8668-8ec245c081bd"
+          },
+          "private": "bnVsbA==",
+          "depends_on": [
+            "azurerm_sql_server.sqlsrv"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_sql_database",
+      "name": "SQL_server_databases",
+      "each": "list",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "collation": "SQL_Latin1_General_CP1_CI_AS",
+            "create_mode": "Default",
+            "creation_date": "2019-11-30T22:57:10.41Z",
+            "default_secondary_location": "North Europe",
+            "edition": "Standard",
+            "elastic_pool_name": "",
+            "encryption": "",
+            "id": "/subscriptions/a0dcddb9-cf21-4f85-b8d7-d3bdf0cb0426/resourceGroups/abdedv-pvtest-sqlsrv-rg/providers/Microsoft.Sql/servers/abdedv-pvtest-sqlsrv/databases/db1",
+            "import": [],
+            "location": "westeurope",
+            "max_size_bytes": "104857600",
+            "name": "db1",
+            "read_scale": false,
+            "requested_service_objective_id": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+            "requested_service_objective_name": "S0",
+            "resource_group_name": "abdedv-pvtest-sqlsrv-rg",
+            "restore_point_in_time": null,
+            "server_name": "abdedv-pvtest-sqlsrv",
+            "source_database_deletion_date": null,
+            "source_database_id": null,
+            "tags": {
+              "note": "Delete anytime",
+              "subscription": "xxx"
+            },
+            "threat_detection_policy": [
+              {
+                "disabled_alerts": [],
+                "email_account_admins": "Disabled",
+                "email_addresses": [],
+                "retention_days": 0,
+                "state": "Disabled",
+                "storage_account_access_key": "",
+                "storage_endpoint": "",
+                "use_server_default": "Disabled"
+              }
+            ]
+          },
+          "private": "bnVsbA==",
+          "depends_on": [
+            "azurerm_sql_server.sqlsrv"
+          ]
+        },
+        {
+          "index_key": 1,
+          "schema_version": 0,
+          "attributes": {
+            "collation": "SQL_Latin1_General_CP1_CI_AS",
+            "create_mode": "Default",
+            "creation_date": "2019-12-04T09:03:20.653Z",
+            "default_secondary_location": "North Europe",
+            "edition": "Standard",
+            "elastic_pool_name": "",
+            "encryption": "",
+            "id": "/subscriptions/a0dcddb9-cf21-4f85-b8d7-d3bdf0cb0426/resourceGroups/abdedv-pvtest-sqlsrv-rg/providers/Microsoft.Sql/servers/abdedv-pvtest-sqlsrv/databases/db2",
+            "import": [],
+            "location": "westeurope",
+            "max_size_bytes": "104857600",
+            "name": "db2",
+            "read_scale": false,
+            "requested_service_objective_id": "f1173c43-91bd-4aaa-973c-54e79e15235b",
+            "requested_service_objective_name": "S0",
+            "resource_group_name": "abdedv-pvtest-sqlsrv-rg",
+            "restore_point_in_time": null,
+            "server_name": "abdedv-pvtest-sqlsrv",
+            "source_database_deletion_date": null,
+            "source_database_id": null,
+            "tags": {
+              "note": "Delete anytime",
+              "subscription": "xxx"
+            },
+            "threat_detection_policy": [
+              {
+                "disabled_alerts": [],
+                "email_account_admins": "Disabled",
+                "email_addresses": [],
+                "retention_days": 0,
+                "state": "Disabled",
+                "storage_account_access_key": "",
+                "storage_endpoint": "",
+                "use_server_default": "Disabled"
+              }
+            ]
+          },
+          "private": "bnVsbA==",
+          "depends_on": [
+            "azurerm_sql_server.sqlsrv"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_sql_firewall_rule",
+      "name": "fw_rule",
+      "each": "list",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "index_key": 1,
+          "schema_version": 0,
+          "attributes": {
+            "end_ip_address": "80.188.193.178",
+            "id": "/subscriptions/a0dcddb9-cf21-4f85-b8d7-d3bdf0cb0426/resourceGroups/abdedv-pvtest-sqlsrv-rg/providers/Microsoft.Sql/servers/abdedv-pvtest-sqlsrv/firewallRules/Prague-vlan",
+            "name": "Prague-vlan",
+            "resource_group_name": "abdedv-pvtest-sqlsrv-rg",
+            "server_name": "abdedv-pvtest-sqlsrv",
+            "start_ip_address": "80.188.193.178"
+          },
+          "private": "bnVsbA==",
+          "depends_on": [
+            "azurerm_sql_server.sqlsrv"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_sql_server",
+      "name": "sqlsrv",
+      "provider": "provider.azurerm",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "administrator_login": "unoadmin",
+            "administrator_login_password": "oslik123_",
+            "fully_qualified_domain_name": "abdedv-pvtest-sqlsrv.database.windows.net",
+            "id": "/subscriptions/a0dcddb9-cf21-4f85-b8d7-d3bdf0cb0426/resourceGroups/abdedv-pvtest-sqlsrv-rg/providers/Microsoft.Sql/servers/abdedv-pvtest-sqlsrv",
+            "identity": [],
+            "location": "westeurope",
+            "name": "abdedv-pvtest-sqlsrv",
+            "resource_group_name": "abdedv-pvtest-sqlsrv-rg",
+            "tags": {
+              "note": "Delete anytime",
+              "subscription": "xxx"
+            },
+            "version": "12.0"
+          },
+          "private": "bnVsbA==",
+          "depends_on": [
+            "azurerm_resource_group.resource_group"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_sql_virtual_network_rule",
+      "name": "sqlvnetrule",
+      "each": "list",
+      "provider": "provider.azurerm",
+      "instances": []
+    }
+  ]
+}

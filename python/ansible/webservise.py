@@ -44,7 +44,7 @@ def get_current_release_info(auth, project, url, release_name):
             rslt = rl[0]
         else:
             response.raise_for_status()
-    except Exception as e:
+    except Exception as Exception:
         # print("Could not call {}, with response {}".format(url, response))
         raise
     return rslt
